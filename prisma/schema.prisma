@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model KnowledgeNode {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  type        String
+  discipline  String
+  embedding   String?
+  x           Float?
+  y           Float?
+  explored    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  sourceEdges KnowledgeEdge[] @relation("SourceEdges")
+  targetEdges KnowledgeEdge[] @relation("TargetEdges")
+  notebookEntries NotebookEntry[]
+  curiosityChains CuriosityChainStep[]
+}
+
+model KnowledgeEdge {
+  id           String   @id @default(cuid())
+  sourceId     String
+  targetId     String
+  relationship String
+  strength     Float    @default(1.0)
+  createdAt    DateTime @default(now())
+  
+  source KnowledgeNode @relation("SourceEdges", fields: [sourceId], references: [id])
+  target KnowledgeNode @relation("TargetEdges", fields: [targetId], references: [id])
+}
+
+model DailyCuriosity {
+  id           String   @id @default(cuid())
+  date         String   @unique
+  title        String
+  fact         String
+  explanation  String
+  significance String
+  history      String
+  connections  String
+  questions    String
+  discipline   String
+  nodeId       String?
+  createdAt    DateTime @default(now())
+}
+
+model NotebookEntry {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  type      String
+  nodeId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  node KnowledgeNode? @relation(fields: [nodeId], references: [id])
+}
+
+model CuriosityChain {
+  id         String   @id @default(cuid())
+  title      String
+  startTopic String
+  createdAt  DateTime @default(now())
+  
+  steps CuriosityChainStep[]
+}
+
+model CuriosityChainStep {
+  id        String   @id @default(cuid())
+  chainId   String
+  nodeId    String
+  stepOrder Int
+  question  String
+  
+  chain CuriosityChain @relation(fields: [chainId], references: [id])
+  node  KnowledgeNode  @relation(fields: [nodeId], references: [id])
+}
