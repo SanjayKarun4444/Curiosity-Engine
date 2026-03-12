@@ -23,7 +23,7 @@ export async function POST(
 
     // Update the node if it exists
     if (curiosity.nodeId) {
-      await prisma.knowledgeNode.update({
+      await prisma.knowledgeNode.updateMany({
         where: { id: curiosity.nodeId },
         data: {
           explored: true,

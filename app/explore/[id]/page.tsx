@@ -382,14 +382,14 @@ export default function ExplorePage() {
               </Card>
             </div>
 
-            {deepDive.connections.length > 0 && (
+            {deepDive.connections?.length > 0 && (
               <Card>
                 <h3 className="font-serif text-lg font-semibold text-purple-300 mb-4 flex items-center gap-2">
                   <Link2 className="w-4 h-4" />
                   Cross-Disciplinary Connections
                 </h3>
                 <div className="space-y-3">
-                  {deepDive.connections.map((conn, i) => (
+                  {deepDive.connections?.map((conn, i) => (
                     <div
                       key={i}
                       className="flex items-start gap-3 p-3 glass rounded-lg border border-purple-500/10"
@@ -406,14 +406,14 @@ export default function ExplorePage() {
               </Card>
             )}
 
-            {deepDive.furtherQuestions.length > 0 && (
+            {deepDive.furtherQuestions?.length > 0 && (
               <Card>
                 <h3 className="font-serif text-lg font-semibold text-emerald-300 mb-4 flex items-center gap-2">
                   <HelpCircle className="w-4 h-4" />
                   Further Questions
                 </h3>
                 <div className="space-y-3">
-                  {deepDive.furtherQuestions.map((q, i) => (
+                  {deepDive.furtherQuestions?.map((q, i) => (
                     <div
                       key={i}
                       className="flex items-start gap-3 p-3 glass rounded-lg border border-emerald-500/10"
